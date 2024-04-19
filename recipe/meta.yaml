@@ -10,8 +10,10 @@ source:
   sha256: f990d991d29a590c54b09eff68bc209c4cf2b8b12d945351688d2db8a0d30979
 
 build:
-  number: 0
+  number: 1
   skip: True  # [win]
+  run_exports:
+    - {{ pin_subpackage("libhomfly", max_pin="x.x") }}
 
 requirements:
   build:
@@ -19,8 +21,6 @@ requirements:
     - {{ compiler('c') }}
     - make
   host:
-    - bdw-gc
-  run:
     - bdw-gc
 
 test:
@@ -39,3 +39,4 @@ about:
 extra:
   recipe-maintainers:
     - isuruf
+    - saraedum

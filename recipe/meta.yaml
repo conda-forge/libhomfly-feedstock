@@ -1,5 +1,5 @@
 {% set name = "libhomfly" %}
-{% set version = "1.02r6" %}
+{% set version = "1.03" %}
 
 package:
   name: {{ name|lower }}
@@ -7,11 +7,11 @@ package:
 
 source:
   url: https://github.com/miguelmarco/libhomfly/releases/download/{{ version }}/libhomfly-{{ version }}.tar.gz
-  sha256: f990d991d29a590c54b09eff68bc209c4cf2b8b12d945351688d2db8a0d30979
+  sha256: 2a06e93cccd91d33ed9c345eba2e59b2ba175c11e454cf2029644a9364250871
 
 build:
-  number: 1
-  skip: True  # [win]
+  number: 0
+  skip: true  # [win]
   run_exports:
     - {{ pin_subpackage("libhomfly", max_pin="x.x") }}
 
@@ -19,6 +19,7 @@ requirements:
   build:
     - gnuconfig  # [unix]
     - {{ compiler('c') }}
+    - {{ stdlib("c") }}
     - make
   host:
     - bdw-gc

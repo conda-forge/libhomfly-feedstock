@@ -17,14 +17,14 @@ build:
 
 requirements:
   build:
-    - gnuconfig           # [unix]
-    - {{ compiler('c') }} # [unix]
-    - {{ stdlib("c") }}   # [unix]
-    - {{ compiler("m2w64_c") }}    # [win]
-    - {{ stdlib("m2w64_c") }}      # [win]
+    - gnuconfig  # [unix]
+    - {{ compiler('c') }}  # [unix]
+    - {{ stdlib("c") }}  # [unix]
+    - {{ compiler("m2w64_c") }}  # [win]
+    - {{ stdlib("m2w64_c") }}  # [win]
     - {{ posix }}make
-    - {{ posix }}base        # [build_platform.startswith("win-")]
-    - {{ posix }}diffutils   # [build_platform.startswith("win-")]
+    - {{ posix }}base  # [build_platform.startswith("win-")]
+    - {{ posix }}diffutils  # [build_platform.startswith("win-")]
 
   host:
     - bdw-gc

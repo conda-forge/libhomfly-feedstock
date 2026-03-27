@@ -1,5 +1,6 @@
 {% set name = "libhomfly" %}
 {% set version = "1.04" %}
+{% set posix = "m2-" if build_platform.startswith("win-") else '' %}
 
 package:
   name: {{ name|lower }}
@@ -11,16 +12,20 @@ source:
 
 build:
   number: 0
-  skip: true  # [win]
   run_exports:
     - {{ pin_subpackage("libhomfly", max_pin="x.x") }}
 
 requirements:
   build:
-    - gnuconfig  # [unix]
-    - {{ compiler('c') }}
-    - {{ stdlib("c") }}
-    - make
+    - gnuconfig           # [unix]
+    - {{ compiler('c') }} # [unix]
+    - {{ stdlib("c") }}   # [unix]
+    - {{ compiler("m2w64_c") }}    # [win]
+    - {{ stdlib("m2w64_c") }}      # [win]
+    - {{ posix }}make
+    - {{ posix }}base        # [build_platform.startswith("win-")]
+    - {{ posix }}diffutils   # [build_platform.startswith("win-")]
+
   host:
     - bdw-gc
 

@@ -1,6 +1,5 @@
 {% set name = "libhomfly" %}
 {% set version = "1.04" %}
-{% set posix = "m2-" if build_platform.startswith("win-") else '' %}
 
 package:
   name: {{ name|lower }}
@@ -18,21 +17,19 @@ build:
 requirements:
   build:
     - gnuconfig  # [unix]
-    - {{ compiler('c') }}  # [unix]
-    - {{ stdlib("c") }}  # [unix]
-    - {{ compiler("m2w64_c") }}  # [win]
-    - {{ stdlib("m2w64_c") }}  # [win]
-    - {{ posix }}make
-    - {{ posix }}base  # [build_platform.startswith("win-")]
-    - {{ posix }}diffutils  # [build_platform.startswith("win-")]
-
+    - {{ compiler('c') }}
+    - {{ stdlib("c") }}
+    - make  # [unix]
   host:
     - bdw-gc
 
 test:
   commands:
-    - test -f $PREFIX/lib/libhomfly${SHLIB_EXT}
-    - test -f $PREFIX/include/homfly.h
+    - test -f $PREFIX/lib/libhomfly${SHLIB_EXT}  # [unix]
+    - test -f $PREFIX/include/homfly.h  # [unix]
+    - if not exist %LIBRARY_BIN%\homfly.dll exit 1  # [win]
+    - if not exist %LIBRARY_LIB%\homfly.lib exit 1  # [win]
+    - if not exist %LIBRARY_INC%\homfly.h exit 1  # [win]
 
 about:
   home: https://github.com/miguelmarco/libhomfly

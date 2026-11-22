@@ -1,0 +1,55 @@
+schema_version: 1
+
+context:
+  name: libhomfly
+  version: "1.05"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://github.com/miguelmarco/libhomfly/releases/download/${{ version }}/libhomfly-${{ version }}.tar.gz
+  sha256: 371390bd4a18510e34829fcc3e8cebf916e52647515a5088dccffa56f8494919
+
+build:
+  number: 0
+
+requirements:
+  build:
+    - ${{ compiler('c') }}
+    - ${{ stdlib("c") }}
+    - if: unix
+      then:
+        - make
+        - gnuconfig
+        - pkgconf
+  host:
+    - bdw-gc
+  run_exports:
+    - ${{ pin_subpackage("libhomfly", upper_bound="x.x") }}
+
+tests:
+  - script:
+      - if: unix
+        then: test -f $PREFIX/lib/libhomfly${SHLIB_EXT}
+      - if: unix
+        then: test -f $PREFIX/include/homfly.h
+      - if: win
+        then: if not exist %LIBRARY_BIN%\homfly.dll exit 1
+      - if: win
+        then: if not exist %LIBRARY_LIB%\homfly.lib exit 1
+      - if: win
+        then: if not exist %LIBRARY_INC%\homfly.h exit 1
+
+about:
+  license: Unlicense
+  license_file: LICENSE
+  summary: Library to compute the homfly polynomial of a link.
+  homepage: https://github.com/miguelmarco/libhomfly
+  repository: https://github.com/miguelmarco/libhomfly
+
+extra:
+  recipe-maintainers:
+    - isuruf
+    - saraedum
